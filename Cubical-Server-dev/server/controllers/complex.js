@@ -8,7 +8,6 @@ const { trackEvent, trackException } = require("../utilities/logs");
 const moment = require("moment");
 const { Op } = require("sequelize");
 const { disable } = require("../../app");
-const { smsForCancelledAppointments } = require("./sms");
 const appointmentStatuses = require("../constants").appointmentStatuses;
 
 // helpers & utilities
@@ -24,7 +23,7 @@ const disabledComplexMDL = require("../../database/models").disabledComplex;
 // constants
 const customResErrors = require("../constants").customError.customResErrors;
 
-const deleteAppointmentsAndSendSms = async (complexId, addedDisablesToDb) => {
+const deleteAppointments = async (complexId, addedDisablesToDb) => {
   const disabledComplexStation = await DAL.Find(stationModel, {
     where: {
       complex_id: complexId
@@ -59,7 +58,6 @@ const deleteAppointmentsAndSendSms = async (complexId, addedDisablesToDb) => {
       statusId: appointmentStatuses.CANCELLED_BY_NON_ACTIVE_STATION,
       canceled: amountRecords
     });
-    smsForCancelledAppointments(infoRecordsUpdated);
   }
 };
 
@@ -148,7 +146,7 @@ module.exports = {
 
         const addedDisablesToDb = await DAL.BulkCreate(disabledComplexMDL, disabledComplex);
         if (addedDisablesToDb?.length > 0) {
-          await deleteAppointmentsAndSendSms(complexId, addedDisablesToDb);
+          await deleteAppointments(complexId, addedDisablesToDb);
         }
       }
     } catch (error) {

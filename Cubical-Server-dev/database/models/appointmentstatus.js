@@ -13,11 +13,6 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: "status_id",
         onDelete: "CASCADE"
       });
-
-      AppointmentStatus.hasMany(models.SmsLog_Appointment, {
-        foreignKey: "appointment_status_id",
-        onDelete: "CASCADE"
-      });
     }
   }
   AppointmentStatus.init(

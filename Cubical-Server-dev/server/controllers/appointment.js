@@ -19,7 +19,6 @@ const disableComplexModel = require("../../database/models").disabledComplex;
 // controllers
 const { getScheduleSettings } = require("./complex");
 const { getAssignIntervalByStationType, getAvailableStation } = require("./station");
-const { smsForCancelledAppointments, smsForCreateNewAppointmentByAnother } = require("./sms");
 const { findOrCreateUserFromClick, getUserInfo } = require("./user");
 const { getCurrentDisabledStations } = require("./disabledStation");
 const { getCurrentDisabledStationsTimes } = require("./disabledStation");
@@ -470,7 +469,7 @@ module.exports = {
     }
 
     if (failedAppointments.length === 0) {
-      const { fullName: userFullName } = await findOrCreateUserFromClick(userId);
+      await findOrCreateUserFromClick(userId);
 
       for (const newAppointment of availableAppointments) {
         const {
@@ -481,17 +480,6 @@ module.exports = {
           start_datetime,
           id: appointmentId
         } = await appointment.createAppointment(newAppointment);
-        if (userId !== id) {
-          trackEvent("about to send sms for new appointment", { user_info, appointmentId });
-          await smsForCreateNewAppointmentByAnother({
-            user_info,
-            status_id,
-            station_id,
-            userFullName,
-            appointmentId,
-            start_datetime
-          });
-        }
         addedAppointments.push({
           start_datetime,
           end_datetime,
@@ -542,8 +530,6 @@ module.exports = {
       ]
     });
 
-    // console.log("disabledStations-orel", disabledStations);
-    console.log("allAppointments-orel", allAppointments);
     return allAppointments;
   },
   // get all user appointments : ordered for him or ordered by him.
@@ -601,10 +587,6 @@ module.exports = {
       if (amountRecords === 0) {
         throw new HttpError({ error: customResErrors.notFound });
       } else {
-        // if the cancel request is not by the user himself, the create sms
-        if (cancelledStatus !== appointmentStatuses.CANCELLED_BY_USER) {
-          await smsForCancelledAppointments(infoRecordsUpdated);
-        }
         await transaction.commit();
         return infoRecordsUpdated;
       }
@@ -637,11 +619,6 @@ module.exports = {
         }
       }
     );
-
-    if (amountRecords > 0) {
-      trackEvent("cancel appointments by station", { statusId, canceled: amountRecords });
-      await smsForCancelledAppointments(infoRecordsUpdated);
-    }
 
     return infoRecordsUpdated;
   },

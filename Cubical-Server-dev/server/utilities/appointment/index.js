@@ -99,28 +99,11 @@ module.exports = class AppointmentService {
     }
   }
 
-  async createAppointment({
-    stationId,
-    start_datetime,
-    end_datetime,
-    transaction,
-    userInfo = null,
-    reason,
-    smsTypeId
-  }) {
+  async createAppointment({ stationId, start_datetime, end_datetime, transaction, userInfo = null, reason }) {
     if (!this.DBmodel || !this.userId || !start_datetime || !end_datetime) {
       throw new Error("Parameters validation failed");
     }
-    console.log(
-      "createAppointment-orel",
-      this.userId,
-      start_datetime,
-      end_datetime,
-      transaction,
-      userInfo,
-      reason,
-      smsTypeId
-    );
+
     const newAppointment = await DAL.Create(
       this.DBmodel,
       {
@@ -134,10 +117,6 @@ module.exports = class AppointmentService {
       },
       { transaction: transaction }
     );
-
-    // TODO: sendSMS if smsTypeId
-    // if(smsTypeId)
-    // TODO: logs
 
     return newAppointment;
   }

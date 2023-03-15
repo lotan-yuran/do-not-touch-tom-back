@@ -19,7 +19,6 @@ var debug = require("debug")("cubical-service:server");
 var http = require("http");
 const chalk = require("chalk");
 const { setHealth } = require("../server/utilities").health;
-const { smsServiceTimer } = require("../server/utilities/sms");
 
 /**
  * Get port from environment and store in Express.
@@ -41,9 +40,6 @@ var server = http.createServer(app);
 server.listen(port);
 server.on("error", onError);
 server.on("listening", onListening);
-
-// Run SMS service
-setImmediate(() => smsServiceTimer());
 
 /**
  * Normalize a port into a number, string, or false.

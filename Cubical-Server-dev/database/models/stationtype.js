@@ -21,7 +21,6 @@ module.exports = (sequelize, DataTypes) => {
   StationType.init(
     {
       name: DataTypes.STRING,
-      description: DataTypes.STRING,
       assignment_minute_interval: DataTypes.FLOAT
     },
     {

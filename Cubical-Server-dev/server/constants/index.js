@@ -18,12 +18,6 @@ const stationTypes = {
   PERSONAL_STATION: 3
 };
 
-const smsStatusCodes = {
-  SMS_NOT_SENT: 0,
-  SMS_SENT: 1,
-  SMS_ERROR: 2
-};
-
 const customError = require("./customError");
 const { serviceTypes } = require("./serviceTypes");
 
@@ -32,6 +26,5 @@ module.exports = {
   stationTypes,
   environments,
   customError,
-  serviceTypes,
-  smsStatusCodes
+  serviceTypes
 };

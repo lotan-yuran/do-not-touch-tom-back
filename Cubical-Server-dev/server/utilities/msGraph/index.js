@@ -15,6 +15,8 @@ const getClickUserByUserId = async userId => {
 
     return response.data;
   } catch (err) {
+    console.log("err");
+    console.log(err);
     // if user not found
     if (err?.response?.status === 404) {
       return null;

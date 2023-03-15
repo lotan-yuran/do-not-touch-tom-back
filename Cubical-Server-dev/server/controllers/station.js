@@ -161,7 +161,7 @@ module.exports = {
     }
     const disabledStations = await getPermanentlyDisabledStations(complexId);
     try {
-      const QUERY = `SELECT id, name, description 
+      const QUERY = `SELECT id, name 
                     FROM "StationType" stp 
                     WHERE EXISTS (SELECT null
                                   FROM "Station"

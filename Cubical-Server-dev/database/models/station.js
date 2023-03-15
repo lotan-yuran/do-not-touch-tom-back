@@ -9,10 +9,6 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      Station.hasMany(models.Station_Resource, {
-        foreignKey: "station_id",
-        onDelete: "CASCADE"
-      });
 
       Station.hasMany(models.DisabledStation, {
         foreignKey: "station_id",
