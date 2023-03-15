@@ -1,0 +1,15 @@
+name: Deploy Test
+
+on:
+  push:
+    branches:
+      - test
+
+  workflow_dispatch:
+
+jobs:
+  deploy-test:
+    uses: ./.github/workflows/container-deploy.yml
+    with:
+      ENVIRONMENT_NAME: test
+    secrets: inherit

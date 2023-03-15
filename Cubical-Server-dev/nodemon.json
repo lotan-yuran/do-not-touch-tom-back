@@ -1,0 +1,10 @@
+{
+    "watch": ["server", ".env", "database", "app.js"],
+    "ext": "js,json",
+    "ignore": [
+      ".git",
+      "node_modules/**/node_modules"
+    ],
+    "verbose": true,
+    "delay": "3"
+  }

@@ -1,0 +1,22 @@
+name: Deploy Main
+
+on:
+  push:
+    branches:
+      - main
+
+  workflow_dispatch:
+
+jobs:
+  deploy-preprod:
+    uses: ./.github/workflows/container-deploy.yml
+    with:
+      ENVIRONMENT_NAME: preprod
+    secrets: inherit
+
+  deploy-prod:
+    needs: [deploy-preprod]
+    uses: ./.github/workflows/container-deploy.yml
+    with:
+      ENVIRONMENT_NAME: production
+    secrets: inherit

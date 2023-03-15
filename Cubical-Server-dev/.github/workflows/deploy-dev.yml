@@ -1,0 +1,15 @@
+name: Deploy Dev
+
+on:
+  push:
+    branches:
+      - dev
+
+  workflow_dispatch:
+
+jobs:
+  deploy-dev:
+    uses: ./.github/workflows/container-deploy.yml
+    with:
+      ENVIRONMENT_NAME: development
+    secrets: inherit
