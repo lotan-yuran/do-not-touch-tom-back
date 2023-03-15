@@ -20,11 +20,6 @@ module.exports = (sequelize, DataTypes) => {
       Appointment.belongsTo(models.Station, {
         foreignKey: "station_id"
       });
-
-      Appointment.hasMany(models.SmsLog_Appointment, {
-        foreignKey: "appointment_id",
-        onDelete: "CASCADE"
-      });
     }
   }
   Appointment.init(
@@ -35,7 +30,8 @@ module.exports = (sequelize, DataTypes) => {
       end_datetime: DataTypes.DATE,
       status_id: DataTypes.INTEGER,
       user_info: DataTypes.JSONB,
-      reason: DataTypes.STRING
+      reason: DataTypes.STRING,
+      rating: DataTypes.INTEGER
     },
     {
       freezeTableName: true,

@@ -29,7 +29,6 @@ module.exports = (sequelize, DataTypes) => {
   Complex.init(
     {
       name: DataTypes.STRING,
-      waze_link: DataTypes.STRING,
       organization_id: DataTypes.INTEGER,
       schedule: DataTypes.JSON,
       phone: DataTypes.STRING

@@ -11,7 +11,8 @@ module.exports = (sequelize, DataTypes) => {
       },
       first_name: DataTypes.STRING,
       last_name: DataTypes.STRING,
-      phone: DataTypes.STRING
+      phone: DataTypes.STRING,
+      team_id: DataTypes.INTEGER
     },
     {
       freezeTableName: true,
@@ -27,6 +28,7 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: "user_id",
       onDelete: "CASCADE"
     });
+    User.belongsTo(models.Team, { foreignKey: "team_id" });
   };
   return User;
 };

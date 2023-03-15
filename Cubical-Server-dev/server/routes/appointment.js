@@ -30,6 +30,8 @@ router.post("/createAppointment", (req, res) => {
     })
     .then(data => responseHandler.json(res, data))
     .catch(err => {
+      console.log("err now");
+      console.log(err.message);
       responseHandler.error(res, err, req);
     });
 });
